@@ -12,31 +12,28 @@ import JSZip from 'jszip';
 
 /**
  * Given a File that is either a plain text chat file or a zipped archive,
- * detects the type via magic bytes and returns the parsed chat text.
+ * reads the entire file as an ArrayBuffer (to ensure iCloud cloud files are fully
+ * downloaded by iOS Safari) and parses the chat text.
  */
 export async function extractChatText(file: File): Promise<string> {
-  let isZip = false;
+  let arrayBuffer: ArrayBuffer;
   try {
-    const slice = file.slice(0, 4);
-    const buffer = await slice.arrayBuffer();
-    const arr = new Uint8Array(buffer);
-    // ZIP archives start with the magic bytes 'PK' (0x50, 0x4B)
-    isZip = arr[0] === 0x50 && arr[1] === 0x4B;
+    arrayBuffer = await file.arrayBuffer();
   } catch (err) {
-    console.error('Failed to read file magic bytes, falling back to name/type checks:', err);
-    const name = file.name.toLowerCase();
-    const type = file.type.toLowerCase();
-    isZip = name.endsWith('.zip') || type === 'application/zip' || type === 'application/x-zip-compressed';
+    throw new Error('Failed to read file from your device. If using iCloud, make sure the file is downloaded.');
   }
 
+  const arr = new Uint8Array(arrayBuffer);
+  // Detect if it is a ZIP file by checking the first two magic bytes ('P' and 'K')
+  const isZip = arr[0] === 0x50 && arr[1] === 0x4B;
+
   if (isZip) {
-    const arrayBuffer = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(arrayBuffer);
 
     // Prefer _chat.txt (WhatsApp's default name)
     const chatEntry =
       zip.file('_chat.txt') ??
-      // Fall back to any .txt in the archive
+      // Fall back to any .txt in the archive (e.g. "WhatsApp Chat - Group Name.txt" on iOS)
       Object.values(zip.files).find(
         (f) => !f.dir && f.name.toLowerCase().endsWith('.txt')
       );
@@ -49,7 +46,8 @@ export async function extractChatText(file: File): Promise<string> {
 
     return chatEntry.async('string');
   } else {
-    // Default fallback: read as plain text
-    return file.text();
+    // Treat as plain text, decode as UTF-8
+    const decoder = new TextDecoder('utf-8');
+    return decoder.decode(arrayBuffer);
   }
 }

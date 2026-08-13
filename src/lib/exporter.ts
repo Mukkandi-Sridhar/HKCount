@@ -190,5 +190,20 @@ export function exportPDF(stats: SenderStats[], meta: ExportMeta, opts: ExportOp
     );
   }
 
-  doc.save(`gita4youth-results-${Date.now()}.pdf`);
+  // ── Save or Open PDF (iOS Safari compatible) ─────────────────────────────
+  const blob = doc.output('blob');
+  const url = URL.createObjectURL(blob);
+
+  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (isIOS) {
+    // iOS Safari blocks downloads of direct blobs; opening in a new tab allows printing/saving
+    window.open(url, '_blank');
+  } else {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `gita4youth-results-${Date.now()}.pdf`;
+    a.click();
+  }
+
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
