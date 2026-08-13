@@ -1,4 +1,4 @@
-# 🪷 Githa — Hare Krishna Chant Counter
+# 🪷 Gita4youth — Hare Krishna Chant Counter
 
 A **client-only PWA** that counts how many times each participant said "Hare Krishna"
 (in any language or spelling) in a WhatsApp group chat export.
@@ -10,14 +10,14 @@ A **client-only PWA** that counts how many times each participant said "Hare Kri
 ## Features
 
 - 📁 **Upload WhatsApp exports** — `.txt` or `.zip` (with media), drag-and-drop or file picker
-- 📱 **Web Share Target** — install as a PWA on Android and Githa appears in WhatsApp's share sheet
+- 📱 **Web Share Target** — install as a PWA on Android and Gita4youth appears in WhatsApp's share sheet
 - 🌐 **Multi-script detection** — English, Devanagari, Telugu, Tamil, Kannada, Bengali, Gujarati
 - 🔍 **Fuzzy matching** — catches typos like "Hre Krishna", "Haree Krishnaa", etc.
 - 🔢 **Two counting modes** — count every repetition, or once per message
 - 📊 **Sortable results table** — rank, name/phone, chant count, messages with matches
 - 🔎 **Drill-down view** — tap any row to see the actual matched messages
 - 🤝 **Contact merge** — merge rows for the same person who appears under two identities
-- 📤 **Export** — PDF (Githa-branded), CSV, copy-to-clipboard
+- 📤 **Export** — PDF (Gita4youth-branded), CSV, copy-to-clipboard
 - ⚙️ **Settings** — counting mode, loose matching (HK/HKHK), redact phone numbers in exports
 - 🔒 **100% private** — no server, no analytics, no network requests
 
@@ -78,14 +78,14 @@ Connect your GitHub repo in the Cloudflare Pages dashboard. Build command: `npm 
 
 1. Open the app URL in Chrome on Android → tap ⋮ → **Add to Home screen**
 2. Open your WhatsApp group → ⋮ → **More** → **Export chat** → **Without media**
-3. In the share sheet, tap **Githa**
+3. In the share sheet, tap **Gita4youth**
 4. Done — results appear automatically
 
 ## How to use (iOS / any platform)
 
 1. Export the WhatsApp chat to Files
-2. Open Githa in Safari → tap Share → **Add to Home Screen** (for offline use)
-3. Open Githa → tap **Browse file** → pick the `.txt` or `.zip` file
+2. Open Gita4youth in Safari → tap Share → **Add to Home Screen** (for offline use)
+3. Open Gita4youth → tap **Browse file** → pick the `.txt` or `.zip` file
 4. Done
 
 ---

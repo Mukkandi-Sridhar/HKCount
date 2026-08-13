@@ -1,7 +1,7 @@
 /**
  * exporter.ts
  *
- * PDF and CSV export for Githa results.
+ * PDF and CSV export for Gita4youth results.
  *
  * Public API:
  *   exportCSV(stats, options)
@@ -65,7 +65,7 @@ export function exportCSV(stats: SenderStats[], opts: ExportOptions): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `githa-results-${Date.now()}.csv`;
+  a.download = `gita4youth-results-${Date.now()}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -105,7 +105,7 @@ export function exportPDF(stats: SenderStats[], meta: ExportMeta, opts: ExportOp
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(22);
   doc.setTextColor(...saffron);
-  doc.text('Githa', margin, 16);
+  doc.text('Gita4youth', margin, 16);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
@@ -183,12 +183,12 @@ export function exportPDF(stats: SenderStats[], meta: ExportMeta, opts: ExportOp
     doc.setFontSize(8);
     doc.setTextColor(150);
     doc.text(
-      `Githa — githa.app  |  Page ${p} of ${pageCount}`,
+      `Gita4youth — gita4youth.app  |  Page ${p} of ${pageCount}`,
       pageWidth / 2,
       doc.internal.pageSize.getHeight() - 6,
       { align: 'center' }
     );
   }
 
-  doc.save(`githa-results-${Date.now()}.pdf`);
+  doc.save(`gita4youth-results-${Date.now()}.pdf`);
 }

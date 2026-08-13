@@ -15,16 +15,16 @@ function Navbar() {
   const { screen, setScreen, reset } = useApp();
 
   return (
-    <nav className="navbar" role="navigation" aria-label="Githa navigation">
+    <nav className="navbar" role="navigation" aria-label="Gita4youth navigation">
       <button
         className="navbar-logo"
         onClick={() => screen === 'results' ? null : reset()}
-        aria-label="Githa home"
+        aria-label="Gita4youth home"
         id="navbar-logo-btn"
         style={{ background: 'none', border: 'none', padding: 0 }}
       >
         <span aria-hidden="true">🪷</span>
-        Githa
+        Gita4youth
       </button>
 
       <div className="navbar-actions">

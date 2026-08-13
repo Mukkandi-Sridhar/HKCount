@@ -63,7 +63,7 @@ export function UploadScreen({ onToast }: UploadScreenProps) {
     if (params.has('share-target')) {
       const readSharedFile = async () => {
         try {
-          const cache = await caches.open('githa-share-target');
+          const cache = await caches.open('gita4youth-share-target');
           const response = await cache.match('/shared-file');
           if (response) {
             const blob = await response.blob();
@@ -110,7 +110,7 @@ export function UploadScreen({ onToast }: UploadScreenProps) {
       {/* Hero */}
       <div className="upload-hero animate-in">
         <div className="logo-mark" aria-hidden="true">🪷</div>
-        <h1 className="logo-title">Githa</h1>
+        <h1 className="logo-title">Gita4youth</h1>
         <p className="logo-tagline">
           Count "Hare Krishna" chants in your WhatsApp group chat — privately, on‑device.
         </p>
@@ -160,7 +160,7 @@ export function UploadScreen({ onToast }: UploadScreenProps) {
         <div className="tips-grid">
           <div className="tip-card">
             <strong>📱 Android</strong>
-            Open WhatsApp group → ⋮ → More → Export chat → Share to Githa
+            Open WhatsApp group → ⋮ → More → Export chat → Share to Gita4youth
           </div>
           <div className="tip-card">
             <strong>🍎 iPhone</strong>
@@ -172,7 +172,7 @@ export function UploadScreen({ onToast }: UploadScreenProps) {
           </div>
           <div className="tip-card">
             <strong>📦 Zip OK</strong>
-            "Export with media" creates a .zip — Githa handles that too, ignoring the media.
+            "Export with media" creates a .zip — Gita4youth handles that too, ignoring the media.
           </div>
         </div>
       </div>

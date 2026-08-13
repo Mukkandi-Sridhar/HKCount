@@ -137,7 +137,7 @@ export function parseWhatsAppExport(rawText: string): Message[] {
 
   // Store the count of recovered bracketless messages in localStorage for UI access
   if (typeof localStorage !== 'undefined') {
-    localStorage.setItem('githa_unattributed_messages_count', String(unattributedCount));
+    localStorage.setItem('gita4youth_unattributed_messages_count', String(unattributedCount));
   }
 
   return messages;

@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icons/*.png'],
       manifest: {
-        name: 'Githa — Hare Krishna Counter',
-        short_name: 'Githa',
+        name: 'Gita4youth — Hare Krishna Counter',
+        short_name: 'Gita4youth',
         description: 'Count "Hare Krishna" chants in your WhatsApp group chat export — privately, on-device.',
         theme_color: '#0d0d0d',
         background_color: '#0d0d0d',
@@ -40,7 +40,7 @@ export default defineConfig({
           },
         ],
         // ── Web Share Target ──────────────────────────────────────────────
-        // This entry makes Githa appear in Android's native share sheet
+        // This entry makes Gita4youth appear in Android's native share sheet
         // when a user exports a WhatsApp chat and selects "Share".
         // The PWA must be installed (added to home screen) for this to work.
         // iOS Safari does not support share_target; use the file upload UI instead.

@@ -179,7 +179,7 @@ export function ResultsScreen({ onToast }: Props) {
 
         {/* Unattributed messages notice */}
         {(() => {
-          const unattributedCount = parseInt(localStorage.getItem('githa_unattributed_messages_count') || '0', 10);
+          const unattributedCount = parseInt(localStorage.getItem('gita4youth_unattributed_messages_count') || '0', 10);
           if (unattributedCount === 0) return null;
           return (
             <div 
@@ -198,7 +198,7 @@ export function ResultsScreen({ onToast }: Props) {
             >
               <span>⚠️</span>
               <span>
-                <strong>Heuristic Notice:</strong> {unattributedCount} lines lacked bracketed timestamps in the export. Githa recovered them by attributing to their nearest sender, but 100% accuracy is not guaranteed.
+                <strong>Heuristic Notice:</strong> {unattributedCount} lines lacked bracketed timestamps in the export. Gita4youth recovered them by attributing to their nearest sender, but 100% accuracy is not guaranteed.
               </span>
             </div>
           );

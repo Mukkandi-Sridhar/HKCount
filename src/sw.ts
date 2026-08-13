@@ -18,7 +18,7 @@ self.addEventListener('fetch', (event) => {
           const file = formData.get('chat');
 
           if (file instanceof File) {
-            const cache = await caches.open('githa-share-target');
+            const cache = await caches.open('gita4youth-share-target');
             // Store the file in cache as '/shared-file'
             await cache.put(
               new Request('/shared-file'),

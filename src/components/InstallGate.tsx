@@ -72,7 +72,7 @@ export function InstallGate({ onInstalled }: InstallGateProps) {
     >
       <div className="upload-hero" style={{ maxWidth: '480px', margin: '0 auto', padding: 'var(--gap-lg)' }}>
         <div className="logo-mark" aria-hidden="true" style={{ fontSize: '3rem' }}>🪷</div>
-        <h1 className="logo-title" style={{ fontSize: '3rem', margin: '16px 0 8px' }}>Githa</h1>
+        <h1 className="logo-title" style={{ fontSize: '3rem', margin: '16px 0 8px' }}>Gita4youth</h1>
         <p className="logo-tagline" style={{ fontSize: '1rem', color: 'var(--clr-text-muted)', marginBottom: '32px' }}>
           WhatsApp Hare Krishna Chant Counter
         </p>
@@ -83,7 +83,7 @@ export function InstallGate({ onInstalled }: InstallGateProps) {
               Installation Required
             </h2>
             <p style={{ fontSize: '0.875rem', color: 'var(--clr-text)', lineHeight: 1.5 }}>
-              To ensure 100% privacy, Githa runs offline on your device and accepts chat exports directly. It must be installed as an app to be used.
+              To ensure 100% privacy, Gita4youth runs offline on your device and accepts chat exports directly. It must be installed as an app to be used.
             </p>
 
             <div style={{ margin: '24px 0' }}>
@@ -107,7 +107,7 @@ export function InstallGate({ onInstalled }: InstallGateProps) {
                       Scroll down and tap <strong>Add to Home Screen</strong>.
                     </li>
                     <li>
-                      Launch <strong>Githa</strong> from your home screen.
+                      Launch <strong>Gita4youth</strong> from your home screen.
                     </li>
                   </ol>
                   
@@ -116,11 +116,11 @@ export function InstallGate({ onInstalled }: InstallGateProps) {
                       Already installed it on your device?
                     </p>
                     <a 
-                      href="githa://" 
+                      href="gita4youth://" 
                       className="btn btn-secondary w-full"
                       style={{ fontSize: '0.8rem', justifyContent: 'center' }}
                     >
-                      Open installed Githa app
+                      Open installed Gita4youth app
                     </a>
                   </div>
                 </div>
@@ -133,7 +133,7 @@ export function InstallGate({ onInstalled }: InstallGateProps) {
                     className="btn btn-primary w-full"
                     style={{ justifyContent: 'center', height: '48px', fontSize: '1rem' }}
                   >
-                    ✨ Install Githa App
+                    ✨ Install Gita4youth App
                   </button>
                   
                   {!deferredPrompt && (

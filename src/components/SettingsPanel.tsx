@@ -117,7 +117,7 @@ export function SettingsPanel() {
       <div className="settings-group animate-in animate-in-delay-3">
         <div className="settings-group-title">About</div>
         <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
-          <strong style={{ fontSize: '1rem' }}>🪷 Githa v1.0.0</strong>
+          <strong style={{ fontSize: '1rem' }}>🪷 Gita4youth v1.0.0</strong>
           <span style={{ fontSize: '0.8rem', color: 'var(--clr-text-muted)', lineHeight: 1.6 }}>
             A client-only PWA — your WhatsApp export never leaves your device.
             Built with React + Vite. Supports English, Devanagari, Telugu, Tamil,
