@@ -68,17 +68,20 @@ function stripDirectionalMarks(s: string): string {
 // Public API
 // ---------------------------------------------------------------------------
 export function parseWhatsAppExport(rawText: string): Message[] {
-  // Normalize line endings
-  const text = rawText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  // 1. Strip zero-width, direction marks, and BOM globally to prevent prefix match failures
+  const cleanText = rawText.replace(ZW_STRIP_RE, '');
+
+  // 2. Normalize line endings
+  const text = cleanText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   const lines = text.split('\n');
 
   const messages: Message[] = [];
   let current: { sender: string; content: string } | null = null;
   let unattributedCount = 0;
 
-  // Regexes for Android and iOS prefix formats (supports diverse locales, 12h/24h)
-  const IOS_PREFIX_RE = /^\[(\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4}),?\s+(\d{1,2}:\d{2}(?::\d{2})?)(?:\s*[\u202f ]?[aApP]\.?[mM]\.?)?\]\s+(.*)$/;
-  const ANDROID_PREFIX_RE = /^(\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4}),?\s+(\d{1,2}:\d{2}(?::\d{2})?)(?:\s*[\u202f ]?[aApP]\.?[mM]\.?)?\s+-\s+(.*)$/;
+  // Regexes for Android and iOS prefix formats (supports diverse locales, YYYY-MM-DD, dots, dashes, slashes, and custom AM/PM indicators)
+  const IOS_PREFIX_RE = /^\[(\d{1,4}[\/.\-]\d{1,4}[\/.\-]\d{2,4}[^\]\n]{1,30})\]\s+(.*)$/;
+  const ANDROID_PREFIX_RE = /^(\d{1,4}[\/.\-]\d{1,4}[\/.\-]\d{2,4}[^-\n]{1,30})\s+-\s+(.*)$/;
   
   // Bug 2 Fallback: matches bracketless Name: message lines
   const ORPHAN_SENDER_LINE_RE = /^([^:]{1,40}):\s([\s\S]+)$/;
@@ -93,7 +96,7 @@ export function parseWhatsAppExport(rawText: string): Message[] {
       if (current) {
         messages.push(createMessage(current.sender, current.content));
       }
-      const rest = m[3];
+      const rest = m[2];
       let sender = '';
       let msg = '';
       
