@@ -15,7 +15,7 @@ self.addEventListener('fetch', (event) => {
       (async () => {
         try {
           const formData = await event.request.formData();
-          const file = formData.get('chat');
+          const file = formData.get('chat') || Array.from(formData.values()).find((v) => v instanceof File);
 
           if (file instanceof File) {
             const cache = await caches.open('gita4youth-share-target');

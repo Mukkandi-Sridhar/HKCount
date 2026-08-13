@@ -11,21 +11,22 @@
 import JSZip from 'jszip';
 
 /**
- * Given a File that is either:
- *  - a plain .txt file  → reads and returns the text directly
- *  - a .zip file        → extracts _chat.txt (or the first .txt found) and returns its text
- *
- * Throws if no .txt file is found inside the zip.
+ * Given a File that is either a plain text chat file or a zipped archive,
+ * detects the type via magic bytes and returns the parsed chat text.
  */
 export async function extractChatText(file: File): Promise<string> {
-  const name = file.name.toLowerCase();
-  const type = file.type.toLowerCase();
-
-  const isText = name.endsWith('.txt') || type === 'text/plain';
-  const isZip = name.endsWith('.zip') || type === 'application/zip' || type === 'application/x-zip-compressed';
-
-  if (isText) {
-    return file.text();
+  let isZip = false;
+  try {
+    const slice = file.slice(0, 4);
+    const buffer = await slice.arrayBuffer();
+    const arr = new Uint8Array(buffer);
+    // ZIP archives start with the magic bytes 'PK' (0x50, 0x4B)
+    isZip = arr[0] === 0x50 && arr[1] === 0x4B;
+  } catch (err) {
+    console.error('Failed to read file magic bytes, falling back to name/type checks:', err);
+    const name = file.name.toLowerCase();
+    const type = file.type.toLowerCase();
+    isZip = name.endsWith('.zip') || type === 'application/zip' || type === 'application/x-zip-compressed';
   }
 
   if (isZip) {
@@ -46,9 +47,8 @@ export async function extractChatText(file: File): Promise<string> {
     }
 
     return chatEntry.async('string');
+  } else {
+    // Default fallback: read as plain text
+    return file.text();
   }
-
-  throw new Error(
-    `Unsupported file type: "${file.name}" (${file.type || 'unknown type'}). Please upload a .txt or .zip file exported from WhatsApp.`
-  );
 }
