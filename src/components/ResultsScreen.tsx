@@ -177,6 +177,33 @@ export function ResultsScreen({ onToast }: Props) {
           </div>
         )}
 
+        {/* Unattributed messages notice */}
+        {(() => {
+          const unattributedCount = parseInt(localStorage.getItem('githa_unattributed_messages_count') || '0', 10);
+          if (unattributedCount === 0) return null;
+          return (
+            <div 
+              className="card animate-in" 
+              style={{ 
+                background: 'rgba(239, 68, 68, 0.08)', 
+                borderColor: 'rgba(239, 68, 68, 0.25)', 
+                padding: '12px 16px',
+                borderRadius: 'var(--r-md)',
+                fontSize: '0.8rem',
+                color: 'var(--clr-error)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <span>⚠️</span>
+              <span>
+                <strong>Heuristic Notice:</strong> {unattributedCount} lines lacked bracketed timestamps in the export. Githa recovered them by attributing to their nearest sender, but 100% accuracy is not guaranteed.
+              </span>
+            </div>
+          );
+        })()}
+
         {/* Export bar */}
         <ExportBar onToast={onToast} />
       </div>

@@ -106,3 +106,43 @@ describe('parseWhatsAppExport — zero-width characters', () => {
     expect(messages[0].content).toContain('Hare Krishna');
   });
 });
+
+// ---------------------------------------------------------------------------
+// Bug 1: Media-only messages (no colon separator)
+// ---------------------------------------------------------------------------
+describe('parseWhatsAppExport — media-only messages', () => {
+  it('parses lines without colons as sender name and empty message text', () => {
+    const raw = '[16/08/25, 12:46:48 AM] SenderName';
+    const messages = parseWhatsAppExport(raw);
+    expect(messages.length).toBe(1);
+    expect(messages[0].sender).toBe('SenderName');
+    expect(messages[0].content).toBe('');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Bug 2: Bracketless orphan-line recovery
+// ---------------------------------------------------------------------------
+describe('parseWhatsAppExport — bracketless orphan recovery', () => {
+  it('recovers bracketless sender lines when current message text is empty', () => {
+    const raw = 
+      '[16/08/25, 12:46:48 AM] SenderName\n' +
+      'SHY: Hare Krishna🙏🚨';
+    const messages = parseWhatsAppExport(raw);
+    expect(messages.length).toBe(2);
+    expect(messages[0].sender).toBe('SenderName');
+    expect(messages[0].content).toBe(''); // media only
+    expect(messages[1].sender).toBe('SHY');
+    expect(messages[1].content).toBe('Hare Krishna🙏🚨');
+  });
+
+  it('does NOT recover as new message if current message has real text', () => {
+    const raw = 
+      '[16/08/25, 12:46:48 AM] SenderName: Hello\n' +
+      'Note: please arrive by 9am';
+    const messages = parseWhatsAppExport(raw);
+    expect(messages.length).toBe(1);
+    expect(messages[0].sender).toBe('SenderName');
+    expect(messages[0].content).toBe('Hello\nNote: please arrive by 9am');
+  });
+});

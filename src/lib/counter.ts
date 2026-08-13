@@ -175,9 +175,11 @@ function looksLikePhone(s: string): boolean {
 
 function makeSenderStats(sender: string): SenderStats {
   const isPhone = looksLikePhone(sender);
+  // Strip leading ~ prepended by WhatsApp for unsaved contacts
+  const displayName = sender.startsWith('~') ? sender.substring(1).trim() : sender;
   return {
     id: sender,
-    displayName: sender,
+    displayName: displayName,
     phoneNumber: isPhone ? sender : undefined,
     totalCount: 0,
     messageCount: 0,
