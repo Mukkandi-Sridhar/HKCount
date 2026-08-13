@@ -11,6 +11,42 @@
 import JSZip from 'jszip';
 
 /**
+ * Robustly decodes a text buffer by checking for UTF-16 BOM signatures
+ * or analyzing byte structure, falling back to UTF-8.
+ * WhatsApp exports can be UTF-8 (typical Android) or UTF-16LE (typical iOS).
+ */
+function decodeTextBuffer(buffer: ArrayBuffer | ArrayBufferLike): string {
+  const arr = new Uint8Array(buffer);
+
+  // 1. Check for UTF-16 LE BOM (FF FE)
+  if (arr.length >= 2 && arr[0] === 0xFF && arr[1] === 0xFE) {
+    const decoder = new TextDecoder('utf-16le');
+    return decoder.decode(buffer);
+  }
+
+  // 2. Check for UTF-16 BE BOM (FE FF)
+  if (arr.length >= 2 && arr[0] === 0xFE && arr[1] === 0xFF) {
+    const decoder = new TextDecoder('utf-16be');
+    return decoder.decode(buffer);
+  }
+
+  // 3. Detect UTF-16LE without BOM by checking density of null bytes in high positions
+  let nullsCount = 0;
+  const limit = Math.min(arr.length, 100);
+  for (let i = 1; i < limit; i += 2) {
+    if (arr[i] === 0) nullsCount++;
+  }
+  if (limit > 10 && nullsCount / (limit / 2) > 0.8) {
+    const decoder = new TextDecoder('utf-16le');
+    return decoder.decode(buffer);
+  }
+
+  // 4. Default: decode as UTF-8
+  const decoder = new TextDecoder('utf-8');
+  return decoder.decode(buffer);
+}
+
+/**
  * Given a File that is either a plain text chat file or a zipped archive,
  * reads the entire file as an ArrayBuffer (to ensure iCloud cloud files are fully
  * downloaded by iOS Safari) and parses the chat text.
@@ -44,10 +80,11 @@ export async function extractChatText(file: File): Promise<string> {
       );
     }
 
-    return chatEntry.async('string');
+    // Extract as Uint8Array to handle potential UTF-16LE encoding inside the zip
+    const chatBytes = await chatEntry.async('uint8array');
+    return decodeTextBuffer(chatBytes.buffer);
   } else {
-    // Treat as plain text, decode as UTF-8
-    const decoder = new TextDecoder('utf-8');
-    return decoder.decode(arrayBuffer);
+    // Treat as plain text
+    return decodeTextBuffer(arrayBuffer);
   }
 }
