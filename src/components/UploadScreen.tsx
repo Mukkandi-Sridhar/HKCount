@@ -147,7 +147,6 @@ export function UploadScreen({ onToast }: UploadScreenProps) {
         <input
           ref={inputRef}
           type="file"
-          accept=".txt,.zip"
           style={{ display: 'none' }}
           onChange={onFileChange}
           id="upload-file-input"
