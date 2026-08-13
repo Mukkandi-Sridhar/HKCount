@@ -1,0 +1,9 @@
+[12/08/2026, 9:15:00 PM] Jane Doe: Hare Krishna Hare Krishna
+[12/08/2026, 9:16:00 PM] John Smith: hare krsna
+[12/08/2026, 9:17:00 PM] Jane Doe: Haree Krishna
+[12/08/2026, 9:18:00 PM] Jane Doe: image omitted
+[12/08/2026, 9:19:00 PM] John Smith: You deleted this message
+[12/08/2026, 9:20:00 PM] Jane Doe added John Smith
+[12/08/2026, 9:21:00 PM] Jane Doe: Multi line message starts here
+Still talking about Hare Krishna here
+[12/08/2026, 9:22:00 PM] +1 555-123-4567: Hari Krishna Prabhu
