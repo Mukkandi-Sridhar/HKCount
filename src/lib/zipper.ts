@@ -30,7 +30,8 @@ export async function extractChatText(file: File): Promise<string> {
   }
 
   if (isZip) {
-    const zip = await JSZip.loadAsync(file);
+    const arrayBuffer = await file.arrayBuffer();
+    const zip = await JSZip.loadAsync(arrayBuffer);
 
     // Prefer _chat.txt (WhatsApp's default name)
     const chatEntry =
