@@ -144,6 +144,16 @@ export function InstallGate({ onInstalled }: InstallGateProps) {
                 </div>
               )}
             </div>
+
+            <div style={{ marginTop: '20px', borderTop: '1px solid var(--clr-border)', paddingTop: '12px' }}>
+              <button 
+                onClick={onInstalled} 
+                className="btn btn-ghost w-full" 
+                style={{ fontSize: '0.8rem', justifyContent: 'center', color: 'var(--clr-text-muted)', textDecoration: 'underline' }}
+              >
+                Skip & Test in Browser
+              </button>
+            </div>
           </div>
         </CardContainer>
       </div>
