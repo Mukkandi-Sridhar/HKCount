@@ -22,7 +22,7 @@ export interface Message {
 // \u200b ZWS  \u200c ZWNJ  \u200d ZWJ  \u200e LRM  \u200f RLM
 // \u202a–\u202e embedding / override chars  \uFEFF BOM
 // ---------------------------------------------------------------------------
-const ZW_STRIP_RE = /[\u200b-\u200f\u202a-\u202e\uFEFF]/g;
+const ZW_STRIP_RE = /[\u200b-\u200f\u202a-\u202e\u202f\uFEFF]/g;
 
 // ---------------------------------------------------------------------------
 // Content patterns that indicate a message should be excluded from counting
@@ -81,7 +81,9 @@ export function parseWhatsAppExport(rawText: string): Message[] {
 
   // Regexes for Android and iOS prefix formats (supports diverse locales, YYYY-MM-DD, dots, dashes, slashes, and custom AM/PM indicators)
   const IOS_PREFIX_RE = /^\[([^\]\n]{5,50})\]\s+(.*)$/;
-  const ANDROID_PREFIX_RE = /^([^-\n]{5,50})\s+-\s+(.*)$/;
+  // Greedy match for the timestamp portion — TIMESTAMP_INDICATOR below filters false positives.
+  // We deliberately do NOT use [^-] because dashes appear in dates like 12-08-2026.
+  const ANDROID_PREFIX_RE = /^(\S.{4,49})\s+-\s+(.*)$/;
   
   // A valid timestamp must contain either a time-like pattern (digits separated by colon) or a date-like pattern (digits separated by slashes/dashes/dots)
   const TIMESTAMP_INDICATOR = /(?:\d{1,2}:\d{2})|(?:\d{1,4}[\/.\-]\d{1,4})/;
