@@ -80,19 +80,23 @@ export function parseWhatsAppExport(rawText: string): Message[] {
   let unattributedCount = 0;
 
   // Regexes for Android and iOS prefix formats (supports diverse locales, YYYY-MM-DD, dots, dashes, slashes, and custom AM/PM indicators)
-  const IOS_PREFIX_RE = /^\[(\d{1,4}[\/.\-]\d{1,4}[\/.\-]\d{2,4}[^\]\n]{1,30})\]\s+(.*)$/;
-  const ANDROID_PREFIX_RE = /^(\d{1,4}[\/.\-]\d{1,4}[\/.\-]\d{2,4}[^-\n]{1,30})\s+-\s+(.*)$/;
+  const IOS_PREFIX_RE = /^\[([^\]\n]{5,50})\]\s+(.*)$/;
+  const ANDROID_PREFIX_RE = /^([^-\n]{5,50})\s+-\s+(.*)$/;
   
+  // A valid timestamp must contain either a time-like pattern (digits separated by colon) or a date-like pattern (digits separated by slashes/dashes/dots)
+  const TIMESTAMP_INDICATOR = /(?:\d{1,2}:\d{2})|(?:\d{1,4}[\/.\-]\d{1,4})/;
+
   // Bug 2 Fallback: matches bracketless Name: message lines
   const ORPHAN_SENDER_LINE_RE = /^([^:]{1,40}):\s([\s\S]+)$/;
 
   for (const rawLine of lines) {
     const line = rawLine.replace(/[\u200e\u200f]/g, '');
     
-    // Check if line starts with iOS or Android timestamp prefix
+    // Check if line starts with iOS or Android timestamp prefix and has a valid date/time indicator inside it
     const m = IOS_PREFIX_RE.exec(line) || ANDROID_PREFIX_RE.exec(line);
+    const isValidMatch = m && TIMESTAMP_INDICATOR.test(m[1]);
 
-    if (m) {
+    if (isValidMatch) {
       if (current) {
         messages.push(createMessage(current.sender, current.content));
       }
