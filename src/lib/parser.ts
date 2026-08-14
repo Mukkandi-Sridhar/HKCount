@@ -47,9 +47,10 @@ const SKIP_CONTENT_PATTERNS: RegExp[] = [
 // Broadened system message patterns from real export verification
 const SYSTEM_MESSAGE_PATTERNS_RE = new RegExp(
   '(joined using a group link|changed the group|added |removed |left$|' +
-  'changed their phone number|security code changed|created group|' +
+  'changed their phone number|security code changed|created (this )?group|' +
   'changed this group|now an admin|changed to|was added|' +
-  'end-to-end encrypted)',
+  'end-to-end encrypted|missed (voice|video) call|' +
+  'blocked|deleted their account|your security code|business account)',
   'i'
 );
 
